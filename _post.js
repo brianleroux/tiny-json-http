@@ -33,7 +33,7 @@ module.exports = function POST(options, callback) {
     var isJSON = contentType === 'application/json'
 
     if (statusCode !== 200) {
-      callback(Error(`GET failed with: ${statusCode}`))
+      callback(Error('GET failed with: ' + statusCode))
       res.resume()
       return
     }

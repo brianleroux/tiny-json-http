@@ -28,7 +28,7 @@ module.exports = function GET(options, callback) {
     var isJSON = contentType.startsWith('application/json')
 
     if (statusCode !== 200) {
-      callback(Error(`GET failed with: ${statusCode}`))
+      callback(Error('GET failed with: ' + statusCode))
       res.resume()
       return
     }
