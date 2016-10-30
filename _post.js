@@ -25,7 +25,7 @@ module.exports = function POST(options, callback) {
   var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
 
   // make a POST request
-  var req = method(opts, res=> {
+  var req = method(opts, function(res) {
    
     var rawData = ''
     var statusCode = res.statusCode
@@ -39,8 +39,8 @@ module.exports = function POST(options, callback) {
     }
  
     res.setEncoding('utf8')
-    res.on('data', chunk=> rawData += chunk)
-    res.on('end', x=> {
+    res.on('data', function(chunk) { rawData += chunk })
+    res.on('end', function(x) {
       try {
         var parsedData = isJSON? JSON.parse(rawData) : rawData
         callback(null, parsedData)
@@ -51,7 +51,7 @@ module.exports = function POST(options, callback) {
     })
   })
 
-  req.on('error', e=> callback(Error(e.message)))
+  req.on('error', function(e) { callback(Error(e.message)) })
 
   req.write(postData)
  

@@ -20,7 +20,7 @@ module.exports = function GET(options, callback) {
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
   
   // make a request
-  method(opts, res=> {
+  method(opts, function __res(res) {
    
     var rawData = ''
     var statusCode = res.statusCode
@@ -34,8 +34,8 @@ module.exports = function GET(options, callback) {
     }
  
     res.setEncoding('utf8')
-    res.on('data', chunk=> rawData += chunk)
-    res.on('end', x=> {
+    res.on('data', function(chunk) {rawData += chunk})
+    res.on('end', function(x) {
       try {
         var parsedData = isJSON? JSON.parse(rawData) : rawData
         callback(null, parsedData)
@@ -44,5 +44,5 @@ module.exports = function GET(options, callback) {
         callback(e.message)
       }
     })
-  }).on('error', e=> callback(Error(e.message)))
+  }).on('error', function(e) { callback(Error(e.message)) } )
 }
