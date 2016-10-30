@@ -1,0 +1,17 @@
+{
+  "name": "tiny-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test-* | tap-spec"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.14.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.2"
+  }
+}
