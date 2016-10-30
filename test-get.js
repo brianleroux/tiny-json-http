@@ -27,8 +27,7 @@ test('can get a url', t=> {
 test('can get json', t=> {
   t.plan(2)
   var url = 'https://api.github.com/'
-  var json = true
-  tiny.get({url, json}, function __json(err, result) {
+  tiny.get({url}, function __json(err, result) {
     if (err) {
       t.fail(err)
     }
@@ -53,6 +52,3 @@ test('get fails gracefully', t=> {
     }
   })
 })
-
-// handles post json:true
-// handles post form

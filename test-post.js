@@ -1,11 +1,15 @@
 var test = require('tape')
 var express = require('express')
+var bodyParser = require('body-parser')
 var app = express()
 var tiny = require('./')
 var server
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
+
 app.post('/', (req, res)=> {
-  res.json({ok:true}).end()
+  res.json(Object.assign(req.body, {ok:true}))
 })
 
 test('startup', t=> {
@@ -18,9 +22,8 @@ test('startup', t=> {
 test('can post', t=> {
   t.plan(1)
   var url = 'http://localhost:3000/'
-  var json = true
-  tiny.post({url, json}, function __posted(err, result) {
-      console.log('got something', err, result)
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.post({url, data}, function __posted(err, result) {
     if (err) {
       t.fail(err)
     }
