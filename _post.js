@@ -13,15 +13,16 @@ module.exports = function POST(options, callback) {
   // parse out the options from options.url
   var opts = url.parse(options.url)
   var method = opts.protocol === 'https:'? https.request : http.request
+  var defaultContentType = 'application/json; charset=utf-8'
 
   opts.method = 'POST'
   opts.rejectUnauthorized = false
   opts.agent = false
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
-  opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
+  opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
   // opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-  var reqJSON = opts.headers['Content-Type'] === 'application/json'
+  var reqJSON = opts.headers['Content-Type'].startsWith('application/json')
   var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
 
   // make a POST request
