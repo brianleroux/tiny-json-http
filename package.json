@@ -1,6 +1,6 @@
 {
   "name": "tiny-json-http",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "main": "index.js",
   "scripts": {
     "test": "tape test-* | tap-spec",
