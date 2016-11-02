@@ -10,12 +10,15 @@ module.exports = function _read(options, callback) {
     throw Error('options.url required')
   }
 
-  if (options.data) {
-    options.url += '&' + qs.stringify(options.data)
-  }
-
   // parse out the options from options.url
   var opts = url.parse(options.url)
+
+  // check for additional query params
+  if (options.data) {
+    var isSearch = !!opts.search
+    options.url += (isSearch? '&' : '?') + qs.stringify(options.data)
+  }
+
   var method = opts.protocol === 'https:'? https.get : http.get
 
   opts.rejectUnauthorized = false

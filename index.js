@@ -5,5 +5,5 @@ module.exports = {
   get: _read,
   post: _write.bind({}, 'POST'),
   put: _write.bind({}, 'PUT'),
-  delete: _write.bind({}, 'DELETE'),
+  del: _write.bind({}, 'DELETE'),
 }
