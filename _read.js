@@ -17,6 +17,7 @@ module.exports = function _read(options, callback) {
   if (options.data) {
     var isSearch = !!opts.search
     options.url += (isSearch? '&' : '?') + qs.stringify(options.data)
+    opts = url.parse(options.url)
   }
 
   var method = opts.protocol === 'https:'? https.get : http.get
