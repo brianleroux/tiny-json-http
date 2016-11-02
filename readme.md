@@ -15,7 +15,7 @@ npm i tiny-json-http --save
 - `tiny.get(options, callback)`
 - `tiny.post(options, callback)`
 - `tiny.put(options, callback)`
-- `tiny.delete(options, callback)`
+- `tiny.del(options, callback)`
 
 ### options
 
