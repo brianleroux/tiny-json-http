@@ -47,7 +47,7 @@ module.exports = function _write(httpMethod, options, callback) {
         callback(null, parsedData)
       } 
       catch (e) {
-        callback(e.message)
+        callback(e)
       }
     })
   })
