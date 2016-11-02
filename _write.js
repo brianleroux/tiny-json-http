@@ -35,7 +35,7 @@ module.exports = function _write(httpMethod, options, callback) {
 
     var ok = statusCode >= 200 && statusCode < 300
     if (!ok) {
-      callback(Error('GET failed with: ' + statusCode))
+      callback(Error(httpMethod + ' failed with: ' + statusCode))
       res.resume()
       return
     }
