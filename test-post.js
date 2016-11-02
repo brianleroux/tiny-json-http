@@ -9,7 +9,11 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.post('/', (req, res)=> {
-  res.json(Object.assign(req.body, {ok:true}))
+  res.json(Object.assign(req.body, {gotPost:true, ok:true}))
+})
+
+app.put('/', (req, res)=> {
+  res.json(Object.assign(req.body, {gotPut:true, ok:true}))
 })
 
 test('startup', t=> {
@@ -24,6 +28,21 @@ test('can post', t=> {
   var url = 'http://localhost:3000/'
   var data = {a:1, b:new Date(Date.now()).toISOString()}
   tiny.post({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result')
+      console.log(result)
+    } 
+  })
+})
+
+test('can put', t=> {
+  t.plan(1)
+  var url = 'http://localhost:3000/'
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.put({url, data}, function __posted(err, result) {
     if (err) {
       t.fail(err)
     }

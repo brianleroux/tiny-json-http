@@ -1,9 +1,8 @@
-var qs = require('querystring')
 var http = require('http')
 var https = require('https')
 var url = require('url')
 
-module.exports = function POST(options, callback) {
+module.exports = function _read(options, callback) {
 
   // require options.url or fail noisily 
   if (!options.url) {
@@ -12,26 +11,21 @@ module.exports = function POST(options, callback) {
 
   // parse out the options from options.url
   var opts = url.parse(options.url)
-  var method = opts.protocol === 'https:'? https.request : http.request
-  var defaultContentType = 'application/json; charset=utf-8'
+  var method = opts.protocol === 'https:'? https.get : http.get
 
-  opts.method = 'POST'
   opts.rejectUnauthorized = false
   opts.agent = false
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
-  opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
-  // opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-  var reqJSON = opts.headers['Content-Type'].startsWith('application/json')
-  var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
-
-  // make a POST request
-  var req = method(opts, function(res) {
+  opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
+  
+  // make a request
+  method(opts, function __res(res) {
    
     var rawData = ''
     var statusCode = res.statusCode
     var contentType = res.headers['content-type']
-    var isJSON = contentType === 'application/json'
+    var isJSON = contentType.startsWith('application/json')
 
     if (statusCode !== 200) {
       callback(Error('GET failed with: ' + statusCode))
@@ -40,7 +34,7 @@ module.exports = function POST(options, callback) {
     }
  
     res.setEncoding('utf8')
-    res.on('data', function(chunk) { rawData += chunk })
+    res.on('data', function(chunk) {rawData += chunk})
     res.on('end', function(x) {
       try {
         var parsedData = isJSON? JSON.parse(rawData) : rawData
@@ -50,11 +44,5 @@ module.exports = function POST(options, callback) {
         callback(e.message)
       }
     })
-  })
-
-  req.on('error', function(e) { callback(Error(e.message)) })
-
-  req.write(postData)
- 
-  req.end()
+  }).on('error', function(e) { callback(Error(e.message)) } )
 }
