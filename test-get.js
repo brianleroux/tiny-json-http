@@ -6,6 +6,8 @@ test('env', t=> {
   t.ok(tiny, 'got a tiny')
   t.ok(tiny.get, 'got a tiny.get')
   t.ok(tiny.post, 'got a tiny.post')
+  t.ok(tiny.put, 'got a tiny.put')
+  t.ok(tiny.delete, 'got a tiny.delete')
   console.log(tiny)
 })
 
