@@ -14,9 +14,13 @@ npm i tiny-json-http --save
 
 - `tiny.get(options, callback)`
 - `tiny.post(options, callback)`
+- `tiny.put(options, callback)`
+- `tiny.delete(options, callback)`
 
 ### options
 
 - `url` *required*
-- `data` only used by `http.post`
+- `data` form vars for `tiny.post`, `tiny.put`, and `tiny.delete` otherwise querystring vars for `tiny.get`
 - `headers` key/value map used for headers
+
+Check out the tests for examples! :heart_decoration:
