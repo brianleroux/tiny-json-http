@@ -31,7 +31,7 @@ module.exports = function _read(options, callback) {
   // make a request
   method(opts, function __res(res) {
    
-    var rawData = ''
+    var raw = []
     var statusCode = res.statusCode
     var contentType = res.headers['content-type']
     var isJSON = contentType.startsWith('application/json')
@@ -43,10 +43,11 @@ module.exports = function _read(options, callback) {
       return
     }
  
-    res.setEncoding('utf8')
-    res.on('data', function(chunk) {rawData += chunk})
+    // res.setEncoding('utf8')
+    res.on('data', function(chunk) {raw.push(chunk)})
     res.on('end', function(x) {
       try {
+        var rawData = Buffer.concat(raw).toString()
         var parsedData = isJSON? JSON.parse(rawData) : rawData
         callback(null, parsedData)
       } 
