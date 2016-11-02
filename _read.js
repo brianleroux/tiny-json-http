@@ -1,12 +1,17 @@
 var http = require('http')
 var https = require('https')
 var url = require('url')
+var qs = require('querystring')
 
 module.exports = function _read(options, callback) {
 
   // require options.url or fail noisily 
   if (!options.url) {
     throw Error('options.url required')
+  }
+
+  if (options.data) {
+    options.url += '&' + qs.stringify(options.data)
   }
 
   // parse out the options from options.url
@@ -19,6 +24,8 @@ module.exports = function _read(options, callback) {
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
   
+console.log(opts)
+
   // make a request
   method(opts, function __res(res) {
    
