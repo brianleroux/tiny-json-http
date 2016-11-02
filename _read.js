@@ -24,8 +24,6 @@ module.exports = function _read(options, callback) {
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
   
-console.log(opts)
-
   // make a request
   method(opts, function __res(res) {
    

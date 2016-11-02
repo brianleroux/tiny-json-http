@@ -2,7 +2,7 @@
 
 Minimalist `HTTP` client for `GET` and `POST`ing `JSON` payloads
 
-- Zero dependencies: perfect for AWS Lambda
+- Zero dependencies: perfect for AWS Lambda or Browserify
 - Sane default: assumes buffered JSON responses
 - System symmetry: Node style errback API
 
