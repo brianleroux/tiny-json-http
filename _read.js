@@ -36,7 +36,8 @@ module.exports = function _read(options, callback) {
     var contentType = res.headers['content-type']
     var isJSON = contentType.startsWith('application/json')
 
-    if (statusCode !== 200) {
+    var ok = statusCode >= 200 && statusCode < 300
+    if (!ok) {
       callback(Error('GET failed with: ' + statusCode))
       res.resume()
       return
