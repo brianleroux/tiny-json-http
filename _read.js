@@ -46,7 +46,7 @@ module.exports = function _read(options, callback) {
         callback(null, parsedData)
       } 
       catch (e) {
-        callback(e.message)
+        callback(e)
       }
     })
   }).on('error', function(e) { callback(Error(e.message)) } )
