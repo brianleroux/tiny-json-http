@@ -28,11 +28,9 @@ module.exports = function _write(httpMethod, options, callback) {
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
-  // opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   var reqJSON = opts.headers['Content-Type'].startsWith('application/json')
   var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
 
-  console.log('debug info for!!!', opts)
   // make a POST request
   var req = method(opts, function(res) {
    
