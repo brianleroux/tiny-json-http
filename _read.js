@@ -35,7 +35,7 @@ module.exports = function _read(options, callback) {
 
     var ok = res.statusCode >= 200 && res.statusCode < 300
     if (!ok) {
-      callback(Error('GET failed with: ' + statusCode))
+      callback(Error('GET failed with: ' + res.statusCode))
       res.resume()
       return
     }
