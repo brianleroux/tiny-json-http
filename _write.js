@@ -32,6 +32,7 @@ module.exports = function _write(httpMethod, options, callback) {
   var reqJSON = opts.headers['Content-Type'].startsWith('application/json')
   var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
 
+  console.log('debug info for!!!', opts)
   // make a POST request
   var req = method(opts, function(res) {
    
