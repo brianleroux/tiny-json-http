@@ -29,31 +29,35 @@ module.exports = function _read(options, callback) {
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
   
   // make a request
-  method(opts, function __res(res) {
+  var req = method(opts, function __res(res) {
    
     var raw = []
-    var statusCode = res.statusCode
-    var contentType = res.headers['content-type']
-    var isJSON = contentType.startsWith('application/json')
 
-    var ok = statusCode >= 200 && statusCode < 300
+    var ok = res.statusCode >= 200 && res.statusCode < 300
     if (!ok) {
       callback(Error('GET failed with: ' + statusCode))
       res.resume()
       return
     }
  
-    // res.setEncoding('utf8')
-    res.on('data', function(chunk) {raw.push(chunk)})
-    res.on('end', function(x) {
+    res.on('data', function __data(chunk) {
+      raw.push(chunk)
+    })
+
+    res.on('end', function __end() {
+      var err = null
+      var result = null
       try {
+        var isJSON = res.headers['content-type'].startsWith('application/json')
         var rawData = Buffer.concat(raw).toString()
-        var parsedData = isJSON? JSON.parse(rawData) : rawData
-        callback(null, parsedData)
+        result = isJSON? JSON.parse(rawData) : rawData
       } 
       catch (e) {
-        callback(e)
+        err = e
       }
+      callback(err, result)
     })
-  }).on('error', function(e) { callback(Error(e.message)) } )
+  })
+  
+  req.on('error', callback)
 }

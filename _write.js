@@ -28,33 +28,35 @@ module.exports = function _write(httpMethod, options, callback) {
   // make a POST request
   var req = method(opts, function(res) {
    
-    var raw = []
-    var statusCode = res.statusCode
-    var contentType = res.headers['content-type']
-    var isJSON = contentType === 'application/json'
+    var raw = [] // keep our buffers here
+    var ok = res.statusCode >= 200 && res.statusCode < 300
 
-    var ok = statusCode >= 200 && statusCode < 300
     if (!ok) {
       callback(Error(httpMethod + ' failed with: ' + statusCode))
       res.resume()
       return
     }
  
-    // res.setEncoding('utf8')
-    res.on('data', function(chunk) { raw.push(chunk) })
-    res.on('end', function(x) {
+    res.on('data', function __data(chunk) { 
+      raw.push(chunk) 
+    })
+
+    res.on('end', function __end() {
+      var err = null
+      var result = null
       try {
+        var isJSON = res.headers['content-type'].startsWith('application/json')
         var rawData = Buffer.concat(raw).toString()
-        var parsedData = isJSON? JSON.parse(rawData) : rawData
-        callback(null, parsedData)
+        result = isJSON? JSON.parse(rawData) : rawData
       } 
       catch (e) {
-        callback(e)
+        err = e
       }
+      callback(err, result)
     })
   })
 
-  req.on('error', function(e) { callback(Error(e.message)) })
+  req.on('error', callback)
 
   req.write(postData)
  
