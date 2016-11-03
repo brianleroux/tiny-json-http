@@ -17,7 +17,7 @@ app.put('/', (req, res)=> {
 })
 
 app.delete('/', (req, res)=> {
-  res.json(Object.assign(req.body, {gotDel:true, ok:true}))
+  res.json(Object.assign(req.query, {gotDel:true, ok:true}))
 })
 
 test('startup', t=> {
@@ -60,7 +60,7 @@ test('can put', t=> {
 })
 
 test('can del', t=> {
-  t.plan(2)
+  t.plan(3)
   var url = 'http://localhost:3000/'
   var data = {a:1, b:new Date(Date.now()).toISOString()}
   tiny.del({url, data}, function __posted(err, result) {
@@ -70,6 +70,7 @@ test('can del', t=> {
     else {
       t.ok(result, 'got a result')
       t.ok(result.gotDel, 'got a del')
+      t.ok(result.a, 'passed params via query I guess')
       console.log(result)
     } 
   })
