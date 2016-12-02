@@ -36,7 +36,7 @@ var url = 'http://www.randomkittengenerator.com'
 
 tiny.get({url}, function __got(err, result) {
   if (err) {
-    console.log('ruh roh!, err)
+    console.log('ruh roh!', err)
   }
   else {
     console.log(result)
