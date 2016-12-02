@@ -37,7 +37,7 @@ test('can post', t=> {
     }
     else {
       t.ok(result, 'got a result')
-      t.ok(result.gotPost, 'got a post')
+      t.ok(result.body.gotPost, 'got a post')
       console.log(result)
     } 
   })
@@ -53,7 +53,7 @@ test('can put', t=> {
     }
     else {
       t.ok(result, 'got a result')
-      t.ok(result.gotPut, 'got a put')
+      t.ok(result.body.gotPut, 'got a put')
       console.log(result)
     } 
   })
@@ -69,8 +69,8 @@ test('can del', t=> {
     }
     else {
       t.ok(result, 'got a result')
-      t.ok(result.gotDel, 'got a del')
-      t.ok(result.a, 'passed params via query I guess')
+      t.ok(result.body.gotDel, 'got a del')
+      t.ok(result.body.a, 'passed params via query I guess')
       console.log(result)
     } 
   })

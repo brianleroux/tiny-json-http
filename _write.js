@@ -58,7 +58,7 @@ module.exports = function _write(httpMethod, options, callback) {
       catch (e) {
         err = e
       }
-      callback(err, result)
+      callback(err, {body:result, headers:res.headers})
     })
   })
 

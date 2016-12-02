@@ -12,7 +12,7 @@ test('env', t=> {
 })
 
 test('can get a url', t=> {
-  t.plan(1)
+  t.plan(3)
   var url = 'https://brian.io'
   tiny.get({url}, function __got(err, result) {
     if (err) {
@@ -21,6 +21,8 @@ test('can get a url', t=> {
     }
     else {
       t.ok(result, 'got a result')
+      t.ok(result.headers, 'got headers')
+      t.ok(result.body, 'got body')
       console.log(result)
     }
   })
@@ -35,7 +37,7 @@ test('can get json', t=> {
     }
     else {
       t.ok(result, 'got a result')
-      t.equal(typeof result, 'object', 'is an object')
+      t.equal(typeof result.body, 'object', 'body is an object')
       console.log(err, result)
     } 
   })

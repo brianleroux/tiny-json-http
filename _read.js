@@ -55,7 +55,7 @@ module.exports = function _read(options, callback) {
       catch (e) {
         err = e
       }
-      callback(err, result)
+      callback(err, {body:result, headers:res.headers})
     })
   })
   
