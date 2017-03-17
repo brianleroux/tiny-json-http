@@ -9,11 +9,12 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "browserify": "^13.1.1",
-    "express": "^4.14.0",
+    "body-parser": "^1.17.1",
+    "browserify": "^14.1.0",
+    "express": "^4.15.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
-    "uglifyify": "^3.0.4"
+    "uglifyify": "^3.0.4",
+    "uglifyjs": "^2.4.10"
   }
 }
