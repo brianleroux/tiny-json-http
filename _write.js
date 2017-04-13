@@ -24,7 +24,6 @@ module.exports = function _write(httpMethod, options, callback) {
 
   opts.method = httpMethod
   opts.rejectUnauthorized = false
-  opts.agent = false
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
