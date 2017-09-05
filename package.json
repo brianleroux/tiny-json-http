@@ -6,6 +6,10 @@
     "test": "tape test-* | tap-spec",
     "build": "browserify index --standalone tiny | uglifyjs -c > bundle.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianleroux/tiny-json-http.git"
+  },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "devDependencies": {
