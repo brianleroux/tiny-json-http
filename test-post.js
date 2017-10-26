@@ -91,7 +91,7 @@ test('can access response on errors', t=> {
     t.ok(err.raw, 'has raw response')
     t.equal(err.raw.statusCode, 400)
     t.equal(err.raw.headers['test-header'], 'foo')
-    t.equal(err.body, {calls: 3})
+    t.deepEqual(err.body, {calls: 3})
   })
 })
 

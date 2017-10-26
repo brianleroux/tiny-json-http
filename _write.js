@@ -57,11 +57,9 @@ module.exports = function _write(httpMethod, options, callback) {
         err.raw = res
         err.body = result
         callback(err)
-        res.resume()
-        return
+      } else {
+        callback(err, {body:result, headers:res.headers})
       }
- 
-      callback(err, {body:result, headers:res.headers})
     })
   })
 
