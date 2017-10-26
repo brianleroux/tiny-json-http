@@ -20,6 +20,12 @@ app.delete('/', (req, res)=> {
   res.json(Object.assign(req.query, {gotDel:true, ok:true}))
 })
 
+app.post('/boom', (req, res)=> {
+  res.setHeader('test-header', 'foo')
+  res.statusCode = 400
+  res.json({calls:3})
+})
+
 test('startup', t=> {
   t.plan(1)
   server = app.listen(3000, x=> {
@@ -73,6 +79,19 @@ test('can del', t=> {
       t.ok(result.body.a, 'passed params via query I guess')
       console.log(result)
     } 
+  })
+})
+
+test('can access response on errors', t=> {
+  t.plan(5)
+  var url = 'http://localhost:3000/boom'
+  var data = {};
+  tiny.post({url, data}, function __posted(err, result) {
+    t.ok(err, 'got an error')
+    t.ok(err.raw, 'has raw response')
+    t.equal(err.raw.statusCode, 400)
+    t.equal(err.raw.headers['test-header'], 'foo')
+    t.equal(err.body, {calls: 3})
   })
 })
 

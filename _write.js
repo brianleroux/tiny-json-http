@@ -32,16 +32,9 @@ module.exports = function _write(httpMethod, options, callback) {
 
   // make a POST request
   var req = method(opts, function(res) {
-   
     var raw = [] // keep our buffers here
     var ok = res.statusCode >= 200 && res.statusCode < 300
 
-    if (!ok) {
-      callback(Error(httpMethod + ' failed with: ' + res.statusCode))
-      res.resume()
-      return
-    }
- 
     res.on('data', function __data(chunk) { 
       raw.push(chunk) 
     })
@@ -49,6 +42,7 @@ module.exports = function _write(httpMethod, options, callback) {
     res.on('end', function __end() {
       var err = null
       var result = null
+
       try {
         var isJSON = res.headers['content-type'].startsWith('application/json')
         var rawData = Buffer.concat(raw).toString()
@@ -57,6 +51,16 @@ module.exports = function _write(httpMethod, options, callback) {
       catch (e) {
         err = e
       }
+
+      if (!ok) {
+        err = Error(httpMethod + ' failed with: ' + res.statusCode)
+        err.raw = res
+        err.body = result
+        callback(err)
+        res.resume()
+        return
+      }
+ 
       callback(err, {body:result, headers:res.headers})
     })
   })
