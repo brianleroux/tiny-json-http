@@ -4,7 +4,7 @@ Minimalist `HTTP` client for `GET` and `POST`ing `JSON` payloads
 
 - Zero dependencies: perfect for AWS Lambda or Browserify
 - Sensible default: assumes buffered JSON responses
-- System symmetry: Node style errback API
+- System symmetry: Node style errback API, or Promises for use with Async/Await
 
 ```bash
 npm i tiny-json-http --save
@@ -12,10 +12,12 @@ npm i tiny-json-http --save
 
 ### api
 
-- `tiny.get(options, callback)`
-- `tiny.post(options, callback)`
-- `tiny.put(options, callback)`
-- `tiny.del(options, callback)`
+- `tiny.get(options[, callback])`
+- `tiny.post(options[, callback])`
+- `tiny.put(options[, callback])`
+- `tiny.del(options[, callback)]`
+
+_*callback is optional, tiny methods will return a promise if no callback is provided_
 
 ### options
 
@@ -28,7 +30,30 @@ npm i tiny-json-http --save
 - `err` a real javascript `Error` if there was one
 - `data` an object with `headers` and `body` keys
 
+### promises
+
+- if no `callback` is provided to the tiny-json-http methods, a promise is returned
+- perfect for use of async/await
+
 ## example
+
+#### With Async / Await
+
+```javascript
+var tiny = require('tiny-json-http')
+var url = 'http://www.randomkittengenerator.com'
+
+(async () => {
+  try {
+    const result = await tiny.get({url})
+    console.log(result)
+  } catch (err) {
+    console.log('ruh roh!', err)
+  }
+})
+```
+
+#### With Callback
 
 ```javascript
 var tiny = require('tiny-json-http')
