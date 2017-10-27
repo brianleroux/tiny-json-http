@@ -5,9 +5,19 @@ var qs = require('querystring')
 
 module.exports = function _read(options, callback) {
 
-  // require options.url or fail noisily 
+  // require options.url or fail noisily
   if (!options.url) {
     throw Error('options.url required')
+  }
+
+  // setup promise if there is no callback
+  var promise
+  if (!callback) {
+    promise = new Promise(function(res, rej) {
+      callback = function(err, result) {
+        err ? rej(err) : res(result)
+      }
+    })
   }
 
   // parse out the options from options.url
@@ -26,10 +36,10 @@ module.exports = function _read(options, callback) {
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
-  
+
   // make a request
   var req = method(opts, function __res(res) {
-   
+
     var raw = []
 
     var ok = res.statusCode >= 200 && res.statusCode < 300
@@ -38,7 +48,7 @@ module.exports = function _read(options, callback) {
       res.resume()
       return
     }
- 
+
     res.on('data', function __data(chunk) {
       raw.push(chunk)
     })
@@ -50,13 +60,15 @@ module.exports = function _read(options, callback) {
         var isJSON = res.headers['content-type'].startsWith('application/json')
         var rawData = Buffer.concat(raw).toString()
         result = isJSON? JSON.parse(rawData) : rawData
-      } 
+      }
       catch (e) {
         err = e
       }
       callback(err, {body:result, headers:res.headers})
     })
   })
-  
+
   req.on('error', callback)
+
+  return promise
 }

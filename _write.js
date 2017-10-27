@@ -5,9 +5,19 @@ var url = require('url')
 
 module.exports = function _write(httpMethod, options, callback) {
 
-  // require options.url or fail noisily 
+  // require options.url or fail noisily
   if (!options.url) {
     throw Error('options.url required')
+  }
+
+  // setup promise if there is no callback
+  var promise
+  if (!callback) {
+    promise = new Promise(function(res, rej) {
+      callback = function(err, result) {
+        err ? rej(err) : res(result)
+      }
+    })
   }
 
   // parse out the options from options.url
@@ -35,8 +45,8 @@ module.exports = function _write(httpMethod, options, callback) {
     var raw = [] // keep our buffers here
     var ok = res.statusCode >= 200 && res.statusCode < 300
 
-    res.on('data', function __data(chunk) { 
-      raw.push(chunk) 
+    res.on('data', function __data(chunk) {
+      raw.push(chunk)
     })
 
     res.on('end', function __end() {
@@ -47,7 +57,7 @@ module.exports = function _write(httpMethod, options, callback) {
         var isJSON = res.headers['content-type'].startsWith('application/json')
         var rawData = Buffer.concat(raw).toString()
         result = isJSON? JSON.parse(rawData) : rawData
-      } 
+      }
       catch (e) {
         err = e
       }
@@ -66,6 +76,8 @@ module.exports = function _write(httpMethod, options, callback) {
   req.on('error', callback)
 
   req.write(postData)
- 
+
   req.end()
+
+  return promise
 }
