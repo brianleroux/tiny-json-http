@@ -1,4 +1,5 @@
-test-get.js
-test-post.js
 .gitignore
 bundle.js
+test-get.js
+test-post.js
+test-promise.js
