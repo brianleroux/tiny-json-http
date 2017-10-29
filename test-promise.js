@@ -1,5 +1,5 @@
 var test = require('tape')
-var tiny = require('./promised')
+var tiny = require('.')
 
 test('env', t=> {
   t.plan(5)
