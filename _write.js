@@ -39,6 +39,7 @@ module.exports = function _write(httpMethod, options, callback) {
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
   var reqJSON = opts.headers['Content-Type'].startsWith('application/json')
   var postData = reqJSON? JSON.stringify(options.data || {}) : qs.stringify(options.data || {})
+  opts.headers['Content-Length'] = postData.length
 
   // make a POST request
   var req = method(opts, function(res) {
