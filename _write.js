@@ -55,8 +55,11 @@ module.exports = function _write(httpMethod, options, callback) {
 
       try {
         var isJSON = res.headers['content-type'].startsWith('application/json')
-        var rawData = Buffer.concat(raw).toString()
-        result = isJSON? JSON.parse(rawData) : rawData
+        result = Buffer.concat(raw)
+
+        if (!options.buffer) {
+          result = isJSON ? JSON.parse(result.toString()) : result.toString()
+        }
       }
       catch (e) {
         err = e
