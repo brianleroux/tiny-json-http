@@ -44,14 +44,13 @@ _*callback is optional, tiny methods will return a promise if no callback is pro
 var tiny = require('tiny-json-http')
 var url = 'http://www.randomkittengenerator.com'
 
-(async () => {
+;(async function _iife() {
   try {
-    const result = await tiny.get({url})
-    console.log(result)
+    console.log(await tiny.get({url}))
   } catch (err) {
     console.log('ruh roh!', err)
   }
-})
+})();
 ```
 
 #### With Callback
@@ -60,7 +59,7 @@ var url = 'http://www.randomkittengenerator.com'
 var tiny = require('tiny-json-http')
 var url = 'http://www.randomkittengenerator.com'
 
-tiny.get({url}, function __got(err, result) {
+tiny.get({url}, function _get(err, result) {
   if (err) {
     console.log('ruh roh!', err)
   }
