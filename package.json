@@ -1,10 +1,10 @@
 {
   "name": "tiny-json-http",
   "version": "5.3.2",
-  "main": "index.js",
+  "main": "bundle.js",
   "scripts": {
     "test": "tape test-* | tap-spec",
-    "build": "browserify index --standalone tiny | uglifyjs -c > bundle.js"
+    "build": "browserify index --node --standalone tiny | uglifyjs -c > bundle.js"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,13 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@brianleroux/form-data": "^1.0.3",
     "body-parser": "^1.17.1",
     "browserify": "^14.1.0",
     "express": "^4.15.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
-    "uglifyify": "^3.0.4",
-    "uglifyjs": "^2.4.10"
-  }
+    "uglify-es": "^3.3.7"
+  },
+  "dependencies": {}
 }

@@ -2,7 +2,7 @@
 
 Minimalist `HTTP` client for `GET` and `POST`ing `JSON` payloads
 
-- Zero dependencies: perfect for AWS Lambda or Browserify
+- Zero dependencies: perfect for AWS Lambda
 - Sensible default: assumes buffered JSON responses
 - System symmetry: Node style errback API, or Promises for use with Async/Await
 
@@ -23,7 +23,7 @@ _*callback is optional, tiny methods will return a promise if no callback is pro
 
 - `url` *required*
 - `data` form vars for `tiny.post`, `tiny.put`, and `tiny.delete` otherwise querystring vars for `tiny.get`
-- `headers` key/value map used for headers
+- `headers` key/value map used for headers (including support for uploading files with `mulitpart/form-data`)
 - `buffer` if set to `true` the response body is returned as a buffer
 
 ### callback values
@@ -36,7 +36,7 @@ _*callback is optional, tiny methods will return a promise if no callback is pro
 - if no `callback` is provided to the tiny-json-http methods, a promise is returned
 - perfect for use of async/await
 
-## example
+## examples
 
 #### With Async / Await
 

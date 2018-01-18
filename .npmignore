@@ -1,5 +1,6 @@
-.gitignore
-bundle.js
-test-get.js
-test-post.js
-test-promise.js
+.*
+test-*.js
+index.js
+_read.js
+_write.js
+node_modules
