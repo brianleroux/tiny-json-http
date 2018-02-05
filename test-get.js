@@ -1,5 +1,23 @@
 var test = require('tape')
+var express = require('express')
+var bodyParser = require('body-parser')
+var app = express()
 var tiny = require('./')
+var server
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
+
+app.get('/void', (req, res)=> {
+  res.json('')
+})
+
+test('startup', t=> {
+  t.plan(1)
+  server = app.listen(3001, x=> {
+    t.ok(true, 'started server')
+  })
+})
 
 test('env', t=> {
   t.plan(5)
@@ -43,6 +61,22 @@ test('can get json', t=> {
   })
 })
 
+test('can get and handle "no content"', t=> {
+  t.plan(2)
+  var url = 'http://localhost:3001/void'
+  tiny.get({url}, function __void(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result (empty tho)')
+      t.is(result.body, '')
+      console.log(result)
+    } 
+  })
+})
+
+
 test('get fails gracefully', t=> {
   t.plan(1)
   var url = 'http://nop333.ca'
@@ -55,4 +89,10 @@ test('get fails gracefully', t=> {
       t.fail(result, 'should not succeed')
     }
   })
+})
+
+test('shutdown', t=> {
+  t.plan(1)
+  server.close()
+  t.ok(true, 'closed server')
 })
