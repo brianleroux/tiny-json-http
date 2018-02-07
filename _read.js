@@ -61,7 +61,8 @@ module.exports = function _read(options, callback) {
         result = Buffer.concat(raw)
 
         if (!options.buffer) {
-          result = isJSON ? JSON.parse(result.toString()) : result.toString()
+          var strRes = result.toString()
+          result = strRes && isJSON ? JSON.parse(strRes) : strRes
         }
       }
       catch (e) {
