@@ -12,6 +12,10 @@ app.post('/', (req, res)=> {
   res.json(Object.assign(req.body, {gotPost:true, ok:true}))
 })
 
+app.post('/void', (req, res)=> {
+  res.json('')
+})
+
 app.put('/', (req, res)=> {
   res.json(Object.assign(req.body, {gotPut:true, ok:true}))
 })
@@ -44,6 +48,22 @@ test('can post', t=> {
     else {
       t.ok(result, 'got a result')
       t.ok(result.body.gotPost, 'got a post')
+      console.log(result)
+    } 
+  })
+})
+
+test('can post and handle "no content"', t=> {
+  t.plan(2)
+  var url = 'http://localhost:3000/void'
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.post({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result (empty tho)')
+      t.is(result.body, '')
       console.log(result)
     } 
   })

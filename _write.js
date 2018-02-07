@@ -98,7 +98,8 @@ module.exports = function _write(httpMethod, options, callback) {
 
         if (!options.buffer) {
           var isJSON = is(res.headers, 'application/json')
-          result = isJSON ? JSON.parse(result.toString()) : result.toString()
+          var strRes = result.toString()
+          result = strRes && isJSON ? JSON.parse(strRes) : strRes
         }
       }
       catch (e) {
