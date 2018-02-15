@@ -32,7 +32,6 @@ module.exports = function _read(options, callback) {
 
   var method = opts.protocol === 'https:'? https.get : http.get
 
-  opts.rejectUnauthorized = false
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
