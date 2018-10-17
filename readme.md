@@ -23,7 +23,7 @@ _*callback is optional, tiny methods will return a promise if no callback is pro
 
 - `url` *required*
 - `data` form vars for `tiny.post`, `tiny.put`, and `tiny.delete` otherwise querystring vars for `tiny.get`
-- `headers` key/value map used for headers (including support for uploading files with `mulitpart/form-data`)
+- `headers` key/value map used for headers (including support for uploading files with `multipart/form-data`)
 - `buffer` if set to `true` the response body is returned as a buffer
 
 ### callback values
