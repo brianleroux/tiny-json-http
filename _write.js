@@ -55,7 +55,7 @@ module.exports = function _write(httpMethod, options, callback) {
   }
 
   // ensure we know the len ~after~ we set the postData
-  opts.headers['Content-Length'] = postData.length
+  opts.headers['Content-Length'] = Buffer.byteLength(postData)
     
   // if we're doing a mutipart/form-data to upload files
   // we'll overload `method` and use the custom form-data submit instead of http.request
