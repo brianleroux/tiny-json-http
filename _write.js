@@ -109,6 +109,7 @@ module.exports = function _write(httpMethod, options, callback) {
         err = Error(httpMethod + ' failed with: ' + res.statusCode)
         err.raw = res
         err.body = result
+        err.statusCode = res.statusCode
         callback(err)
       } 
       else {
