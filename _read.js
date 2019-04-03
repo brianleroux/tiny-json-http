@@ -37,26 +37,15 @@ module.exports = function _read(options, callback) {
   opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
 
   // make a request
-  var req = method(opts, function __res(res) {
+  var req = method(opts, function _res(res) {
 
     var raw = []
 
-    var ok = res.statusCode >= 200 && res.statusCode < 300
-    if (!ok) {
-      let err = Error('GET failed with: ' + res.statusCode)
-      err.raw = res
-      err.body = Buffer.concat(raw)
-      err.statusCode = res.statusCode
-      callback(err)
-      res.resume()
-      return
-    }
-
-    res.on('data', function __data(chunk) {
+    res.on('data', function _data(chunk) {
       raw.push(chunk)
     })
 
-    res.on('end', function __end() {
+    res.on('end', function _end() {
       var err = null
       var result = null
       try {
@@ -73,9 +62,19 @@ module.exports = function _read(options, callback) {
       }
       callback(err, {body:result, headers:res.headers})
     })
+
+    var ok = res.statusCode >= 200 && res.statusCode < 300
+    if (!ok) {
+      let err = Error('GET failed with: ' + res.statusCode)
+      err.raw = res
+      err.body = Buffer.concat(raw).toString()
+      err.statusCode = res.statusCode
+      callback(err)
+      res.resume()
+      return
+    }
   })
 
   req.on('error', callback)
-
   return promise
 }
