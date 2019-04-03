@@ -57,24 +57,23 @@ module.exports = function _read(options, callback) {
           result = strRes && isJSON ? JSON.parse(strRes) : strRes
         }
       }
-      catch (e) {
+      catch(e) {
         err = e
       }
+
+      var ok = res.statusCode >= 200 && res.statusCode < 300
+      if (!ok) {
+        err = Error('GET failed with: ' + res.statusCode)
+        err.raw = res
+        err.body = result.toString() 
+        err.statusCode = res.statusCode
+      }
+
       callback(err, {body:result, headers:res.headers})
     })
-
-    var ok = res.statusCode >= 200 && res.statusCode < 300
-    if (!ok) {
-      let err = Error('GET failed with: ' + res.statusCode)
-      err.raw = res
-      err.body = Buffer.concat(raw).toString()
-      err.statusCode = res.statusCode
-      callback(err)
-      res.resume()
-      return
-    }
   })
 
   req.on('error', callback)
+    
   return promise
 }
