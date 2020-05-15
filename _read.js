@@ -38,6 +38,11 @@ module.exports = function _read(options, callback) {
     opts = url.parse(options.url)
   }
 
+  // add timeout if it exists
+  if (options.timeout) {
+    opts.timeout = options.timeout
+  } 
+
   var method = opts.protocol === 'https:'? https.get : http.get
 
   opts.headers = options.headers || {}

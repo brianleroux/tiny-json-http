@@ -46,6 +46,11 @@ module.exports = function _write(httpMethod, options, callback) {
     opts = url.parse(options.url)
   }
 
+  // add timeout
+  if (options.timeout) {
+    opts.timeout = timeout
+  }
+
   // wrangle defaults
   opts.method = httpMethod
   opts.headers = options.headers || {}
