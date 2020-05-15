@@ -5,6 +5,11 @@ var qs = require('querystring')
 
 module.exports = function _read(options, callback) {
 
+  // alias body = data
+  if (options.body && !options.data) {
+    options.data = options.body
+  }
+
   // require options.url or fail noisily
   if (!options.url) {
     throw Error('options.url required')

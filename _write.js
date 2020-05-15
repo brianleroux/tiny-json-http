@@ -6,6 +6,11 @@ var url = require('url')
 
 module.exports = function _write(httpMethod, options, callback) {
 
+  // alias body = data
+  if (options.body && !options.data) {
+    options.data = options.body
+  }
+
   // require options.url or fail noisily
   if (!options.url) {
     throw Error('options.url required')
