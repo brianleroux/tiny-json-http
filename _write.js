@@ -6,6 +6,14 @@ var url = require('url')
 
 module.exports = function _write(httpMethod, options, callback) {
 
+  // deep copy options if no buffers being passed in
+  let formopts = options.data || options.body
+  let notplain = k => typeof formopts[k] != 'string'
+  let basic = formopts && Object.keys(formopts).some(notplain) === false
+  if (basic) {
+    options = JSON.parse(JSON.stringify(options))
+  } 
+
   // alias body = data
   if (options.body && !options.data) {
     options.data = options.body

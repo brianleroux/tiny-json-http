@@ -5,6 +5,9 @@ var qs = require('querystring')
 
 module.exports = function _read(options, callback) {
 
+  // deep copy options
+  options = JSON.parse(JSON.stringify(options))
+
   // alias body = data
   if (options.body && !options.data) {
     options.data = options.body
