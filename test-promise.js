@@ -7,6 +7,7 @@ test('env', t=> {
   t.ok(tiny.get, 'got a tiny.get')
   t.ok(tiny.post, 'got a tiny.post')
   t.ok(tiny.put, 'got a tiny.put')
+  t.ok(tiny.patch, 'got a tiny.patch')
   t.ok(tiny.del, 'got a tiny.delete')
   console.log(tiny)
 })
@@ -47,7 +48,7 @@ test('get fails gracefully', t=> {
   tiny.get({url}, function __ruhroh(err, result) {
     if (err) {
       t.ok(err, 'got err as expected')
-      console.log(err) 
+      console.log(err)
     }
     else {
       t.fail(result, 'should not succeed')

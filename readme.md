@@ -1,6 +1,6 @@
 # tiny-json-http
 
-Minimalist `HTTP` client for `GET` and `POST`ing `JSON` payloads
+Minimalist `HTTP` client for `GET`, `POST`, `PUT`, `PATCH` and `DELETE` `JSON` payloads
 
 - Zero dependencies: perfect for AWS Lambda
 - Sensible default: assumes buffered JSON responses
@@ -15,6 +15,7 @@ npm i tiny-json-http --save
 - `tiny.get(options[, callback])`
 - `tiny.post(options[, callback])`
 - `tiny.put(options[, callback])`
+- `tiny.patch(options[, callback])`
 - `tiny.del(options[, callback)]`
 
 _*callback is optional, tiny methods will return a promise if no callback is provided_
@@ -22,7 +23,7 @@ _*callback is optional, tiny methods will return a promise if no callback is pro
 ### options
 
 - `url` *required*
-- `data` form vars for `tiny.post`, `tiny.put`, and `tiny.delete` otherwise querystring vars for `tiny.get`
+- `data` form vars for `tiny.post`, `tiny.put`, `tiny.patch`, and `tiny.delete` otherwise querystring vars for `tiny.get`
 - `headers` key/value map used for headers (including support for uploading files with `multipart/form-data`)
 - `buffer` if set to `true` the response body is returned as a buffer
 

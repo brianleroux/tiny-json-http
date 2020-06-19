@@ -20,6 +20,10 @@ app.put('/', (req, res)=> {
   res.json(Object.assign(req.body, {gotPut:true, ok:true}))
 })
 
+app.patch('/', (req, res)=> {
+  res.json(Object.assign(req.body, {gotPatch:true, ok:true}))
+})
+
 app.delete('/', (req, res)=> {
   res.json(Object.assign(req.query, {gotDel:true, ok:true}))
 })
@@ -49,7 +53,7 @@ test('can post', t=> {
       t.ok(result, 'got a result')
       t.ok(result.body.gotPost, 'got a post')
       console.log(result)
-    } 
+    }
   })
 })
 
@@ -65,7 +69,7 @@ test('can post and handle "no content"', t=> {
       t.ok(result, 'got a result (empty tho)')
       t.is(result.body, '')
       console.log(result)
-    } 
+    }
   })
 })
 
@@ -81,7 +85,23 @@ test('can put', t=> {
       t.ok(result, 'got a result')
       t.ok(result.body.gotPut, 'got a put')
       console.log(result)
-    } 
+    }
+  })
+})
+
+test('can patch', t=> {
+  t.plan(2)
+  var url = 'http://localhost:3000/'
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.patch({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result')
+      t.ok(result.body.gotPatch, 'got a patch')
+      console.log(result)
+    }
   })
 })
 
@@ -98,7 +118,7 @@ test('can del', t=> {
       t.ok(result.body.gotDel, 'got a del')
       t.ok(result.body.a, 'passed params via query I guess')
       console.log(result)
-    } 
+    }
   })
 })
 
