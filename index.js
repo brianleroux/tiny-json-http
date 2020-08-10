@@ -7,4 +7,5 @@ module.exports = {
   put: _write.bind({}, 'PUT'),
   patch: _write.bind({}, 'PATCH'),
   del: _write.bind({}, 'DELETE'),
+  delete: _write.bind({}, 'DELETE'),
 }

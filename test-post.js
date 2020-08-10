@@ -122,6 +122,23 @@ test('can del', t=> {
   })
 })
 
+test('can delete (aliased to del)', t=> {
+  t.plan(3)
+  var url = 'http://localhost:3000/'
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.delete({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result')
+      t.ok(result.body.gotDel, 'got a del')
+      t.ok(result.body.a, 'passed params via query I guess')
+      console.log(result)
+    }
+  })
+})
+
 test('can access response on errors', t=> {
   t.plan(5)
   var url = 'http://localhost:3000/boom'
