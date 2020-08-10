@@ -2,7 +2,7 @@ var test = require('tape')
 var tiny = require('.')
 
 test('env', t=> {
-  t.plan(5)
+  t.plan(6)
   t.ok(tiny, 'got a tiny')
   t.ok(tiny.get, 'got a tiny.get')
   t.ok(tiny.post, 'got a tiny.post')

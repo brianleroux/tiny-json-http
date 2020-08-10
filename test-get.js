@@ -19,16 +19,6 @@ test('startup', t=> {
   })
 })
 
-test('env', t=> {
-  t.plan(5)
-  t.ok(tiny, 'got a tiny')
-  t.ok(tiny.get, 'got a tiny.get')
-  t.ok(tiny.post, 'got a tiny.post')
-  t.ok(tiny.put, 'got a tiny.put')
-  t.ok(tiny.del, 'got a tiny.delete')
-  console.log(tiny)
-})
-
 test('can get a url', t=> {
   t.plan(3)
   var url = 'https://brian.io'
