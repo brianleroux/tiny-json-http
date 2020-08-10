@@ -1,6 +1,6 @@
 {
   "name": "tiny-json-http",
-  "version": "7.2.0",
+  "version": "7.2.1",
   "main": "bundle.js",
   "scripts": {
     "test": "tape test-* | tap-spec",
