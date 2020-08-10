@@ -25,7 +25,7 @@ app.patch('/', (req, res)=> {
 })
 
 app.delete('/', (req, res)=> {
-  res.json(Object.assign(req.query, {gotDel:true, ok:true}))
+  res.json(Object.assign(req.body, {gotDel:true, ok:true}))
 })
 
 app.post('/boom', (req, res)=> {
@@ -110,6 +110,23 @@ test('can del', t=> {
   var url = 'http://localhost:3000/'
   var data = {a:1, b:new Date(Date.now()).toISOString()}
   tiny.del({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(result, 'got a result')
+      t.ok(result.body.gotDel, 'got a del')
+      t.ok(result.body.a, 'passed params via query I guess')
+      console.log(result)
+    }
+  })
+})
+
+test('can delete (aliased to del)', t=> {
+  t.plan(3)
+  var url = 'http://localhost:3000/'
+  var data = {a:1, b:new Date(Date.now()).toISOString()}
+  tiny.delete({url, data}, function __posted(err, result) {
     if (err) {
       t.fail(err)
     }

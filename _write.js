@@ -12,7 +12,7 @@ module.exports = function _write(httpMethod, options, callback) {
   let basic = formopts && Object.keys(formopts).some(notplain) === false
   if (basic) {
     options = JSON.parse(JSON.stringify(options))
-  } 
+  }
 
   // alias body = data
   if (options.body && !options.data) {
@@ -39,13 +39,6 @@ module.exports = function _write(httpMethod, options, callback) {
   var method = opts.protocol === 'https:'? https.request : http.request
   var defaultContentType = 'application/json; charset=utf-8'
 
-  // put the params on the query
-  if (httpMethod === 'DELETE' && options.data) {
-    var isSearch = !!opts.search
-    options.url += (isSearch? '&' : '?') + qs.stringify(options.data)
-    opts = url.parse(options.url)
-  }
-
   // add timeout
   if (options.timeout) {
     opts.timeout = timeout
@@ -61,20 +54,23 @@ module.exports = function _write(httpMethod, options, callback) {
   var postData = qs.stringify(options.data || {})
 
   function is(headers, type) {
-    var isU = headers['Content-Type'] && headers['Content-Type'].startsWith(type)
-    var isL = headers['content-type'] && headers['content-type'].startsWith(type)
+    var regex = type instanceof RegExp
+    var upper = headers['Content-Type']
+    var lower = headers['content-type']
+    var isU = upper && (regex ? upper.match(type) : upper.startsWith(type))
+    var isL = lower && (regex ? lower.match(type) : lower.startsWith(type))
     return isU || isL
   }
-  
+
   // if we're posting JSON stringify options.data
-  var isJSON = is(opts.headers, 'application/json')
+  var isJSON = is(opts.headers, /^application\/.*json/)
   if (isJSON) {
     postData = JSON.stringify(options.data || {})
   }
 
   // ensure we know the len ~after~ we set the postData
   opts.headers['Content-Length'] = Buffer.byteLength(postData)
-    
+
   // if we're doing a mutipart/form-data to upload files
   // we'll overload `method` and use the custom form-data submit instead of http.request
   var isMultipart = is(opts.headers, 'multipart/form-data')
@@ -109,12 +105,12 @@ module.exports = function _write(httpMethod, options, callback) {
     res.on('end', function _end() {
       var err = null
       var result = null
-  
+
       try {
         result = Buffer.concat(raw)
 
         if (!options.buffer) {
-          var isJSON = is(res.headers, 'application/json')
+          var isJSON = is(res.headers, /^application\/.*json/)
           var strRes = result.toString()
           result = strRes && isJSON ? JSON.parse(strRes) : strRes
         }
@@ -129,7 +125,7 @@ module.exports = function _write(httpMethod, options, callback) {
         err.body = result
         err.statusCode = res.statusCode
         callback(err)
-      } 
+      }
       else {
         callback(err, {body:result, headers:res.headers})
       }

@@ -41,7 +41,7 @@ module.exports = function _read(options, callback) {
   // add timeout if it exists
   if (options.timeout) {
     opts.timeout = options.timeout
-  } 
+  }
 
   var method = opts.protocol === 'https:'? https.get : http.get
 
@@ -62,7 +62,8 @@ module.exports = function _read(options, callback) {
       var err = null
       var result = null
       try {
-        var isJSON = res.headers['content-type'].startsWith('application/json')
+        var isJSON = res.headers['content-type'].startsWith('application/json') ||
+                     res.headers['content-type'].match(/^application\/.*json/)
         result = Buffer.concat(raw)
 
         if (!options.buffer) {
@@ -78,7 +79,7 @@ module.exports = function _read(options, callback) {
       if (!ok) {
         err = Error('GET failed with: ' + res.statusCode)
         err.raw = res
-        err.body = result.toString() 
+        err.body = result.toString()
         err.statusCode = res.statusCode
       }
 
@@ -87,6 +88,6 @@ module.exports = function _read(options, callback) {
   })
 
   req.on('error', callback)
-    
+
   return promise
 }
