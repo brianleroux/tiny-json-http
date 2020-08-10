@@ -25,7 +25,7 @@ app.patch('/', (req, res)=> {
 })
 
 app.delete('/', (req, res)=> {
-  res.json(Object.assign(req.query, {gotDel:true, ok:true}))
+  res.json(Object.assign(req.body, {gotDel:true, ok:true}))
 })
 
 app.post('/boom', (req, res)=> {

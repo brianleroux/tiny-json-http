@@ -39,13 +39,6 @@ module.exports = function _write(httpMethod, options, callback) {
   var method = opts.protocol === 'https:'? https.request : http.request
   var defaultContentType = 'application/json; charset=utf-8'
 
-  // put the params on the query
-  if (httpMethod === 'DELETE' && options.data) {
-    var isSearch = !!opts.search
-    options.url += (isSearch? '&' : '?') + qs.stringify(options.data)
-    opts = url.parse(options.url)
-  }
-
   // add timeout
   if (options.timeout) {
     opts.timeout = timeout
