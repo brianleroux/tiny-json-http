@@ -10,9 +10,14 @@ Minimalist `HTTP` client for `GET`, `POST`, `PUT`, `PATCH` and `DELETE` `JSON` p
 npm i tiny-json-http --save
 ```
 
-### api
+### API
 
+#### Read methods
 - `tiny.get(options[, callback])`
+- `tiny.head(options[, callback])`
+- `tiny.options(options[, callback])`
+
+#### Write methods
 - `tiny.post(options[, callback])`
 - `tiny.put(options[, callback])`
 - `tiny.patch(options[, callback])`
@@ -20,24 +25,24 @@ npm i tiny-json-http --save
 
 _*callback is optional, tiny methods will return a promise if no callback is provided_
 
-### options
+### Options
 
 - `url` *required*
 - `data` form vars for `tiny.post`, `tiny.put`, `tiny.patch`, and `tiny.delete` otherwise querystring vars for `tiny.get`
 - `headers` key/value map used for headers (including support for uploading files with `multipart/form-data`)
 - `buffer` if set to `true` the response body is returned as a buffer
 
-### callback values
+### Callback values
 
 - `err` a real javascript `Error` if there was one
 - `data` an object with `headers` and `body` keys
 
-### promises
+### Promises
 
 - if no `callback` is provided to the tiny-json-http methods, a promise is returned
 - perfect for use of async/await
 
-## examples
+## Examples
 
 #### With Async / Await
 

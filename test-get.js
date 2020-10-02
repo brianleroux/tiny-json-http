@@ -25,7 +25,6 @@ test('can get a url', t=> {
   tiny.get({url}, function __got(err, result) {
     if (err) {
       t.fail(err.statusCode, 'failed to get')
-      console.log(err)
     }
     else {
       t.ok(result, 'got a result')
@@ -47,7 +46,7 @@ test('can get json', t=> {
       t.ok(result, 'got a result')
       t.equal(typeof result.body, 'object', 'body is an object')
       console.log(err, result)
-    } 
+    }
   })
 })
 
@@ -62,7 +61,7 @@ test('can get and handle "no content"', t=> {
       t.ok(result, 'got a result (empty tho)')
       t.is(result.body, '')
       console.log(result)
-    } 
+    }
   })
 })
 
@@ -73,10 +72,40 @@ test('get fails gracefully', t=> {
   tiny.get({url}, function __ruhroh(err, result) {
     if (err) {
       t.ok(err, 'got err as expected')
-      console.log(err) 
+      console.log(err)
     }
     else {
       t.fail(result, 'should not succeed')
+    }
+  })
+})
+
+test('can head a url', t=> {
+  t.plan(2)
+  var url = 'https://www.google.com'
+  tiny.head({url}, function __got(err, result) {
+    if (err) {
+      t.fail(err.statusCode, 'failed to head')
+    }
+    else {
+      t.ok(result, 'got a result')
+      t.ok(result.headers, 'got headers')
+      console.log(result)
+    }
+  })
+})
+
+test('can options a url', t=> {
+  t.plan(2)
+  var url = 'https://www.mozilla.org/en-US/'
+  tiny.options({url}, function __got(err, result) {
+    if (err) {alm
+      t.fail(err.statusCode, 'failed to options')
+    }
+    else {
+      t.ok(result, 'got a result')
+      t.ok(result.headers, 'got headers')
+      console.log(result)
     }
   })
 })

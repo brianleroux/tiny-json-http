@@ -3,7 +3,7 @@ var https = require('https')
 var url = require('url')
 var qs = require('querystring')
 
-module.exports = function _read(options, callback) {
+module.exports = function _read(httpMethod, options, callback) {
 
   // deep copy options
   options = JSON.parse(JSON.stringify(options))
@@ -30,6 +30,8 @@ module.exports = function _read(options, callback) {
 
   // parse out the options from options.url
   var opts = url.parse(options.url)
+  var method = opts.protocol === 'https:' ? https.request : http.request
+  var defaultContentType = 'application/json; charset=utf-8'
 
   // check for additional query params
   if (options.data) {
@@ -43,16 +45,16 @@ module.exports = function _read(options, callback) {
     opts.timeout = options.timeout
   }
 
-  var method = opts.protocol === 'https:'? https.get : http.get
-
+  // wrangle defaults
+  opts.method = httpMethod
   opts.headers = options.headers || {}
   opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
-  opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json'
+  opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
 
   // make a request
   var req = method(opts, function _res(res) {
-
-    var raw = []
+    var raw = [] // keep our buffers here
+    var ok = res.statusCode >= 200 && res.statusCode < 300
 
     res.on('data', function _data(chunk) {
       raw.push(chunk)
@@ -75,19 +77,21 @@ module.exports = function _read(options, callback) {
         err = e
       }
 
-      var ok = res.statusCode >= 200 && res.statusCode < 300
       if (!ok) {
         err = Error('GET failed with: ' + res.statusCode)
         err.raw = res
         err.body = result.toString()
         err.statusCode = res.statusCode
+        callback(err)
       }
-
-      callback(err, {body:result, headers:res.headers})
+      else {
+        callback(err, {body:result, headers:res.headers})
+      }
     })
   })
 
   req.on('error', callback)
+  req.end()
 
   return promise
 }
