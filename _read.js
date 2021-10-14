@@ -63,9 +63,10 @@ module.exports = function _read(httpMethod, options, callback) {
     res.on('end', function _end() {
       var err = null
       var result = null
+      var isJSON = res.headers['content-type'] && 
+                  (res.headers['content-type'].startsWith('application/json') ||
+                   res.headers['content-type'].match(/^application\/.*json/)) 
       try {
-        var isJSON = res.headers['content-type'].startsWith('application/json') ||
-                     res.headers['content-type'].match(/^application\/.*json/)
         result = Buffer.concat(raw)
 
         if (!options.buffer) {
@@ -80,7 +81,7 @@ module.exports = function _read(httpMethod, options, callback) {
       if (!ok) {
         err = Error('GET failed with: ' + res.statusCode)
         err.raw = res
-        err.body = result.toString()
+        err.body = isJSON? JSON.stringify(result) : result.toString()
         err.statusCode = res.statusCode
         callback(err)
       }
