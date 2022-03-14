@@ -68,6 +68,15 @@ module.exports = function _write(httpMethod, options, callback) {
     postData = JSON.stringify(options.data || {})
   }
 
+    // if we're doing a application/x-www-form-urlencoded to upload files
+  // we'll overload `method` and use the custom form-data submit instead of http.request
+  var isUrlEncoded = is(opts.headers, 'application/x-www-form-urlencoded')
+  if (isUrlEncoded) {
+    postData = Object.keys(options.data)
+      .map(k => `${encodeURI(k)}=${encodeURI(options.data[k])}`)
+      .join('&')
+  }
+
   // ensure we know the len ~after~ we set the postData
   opts.headers['Content-Length'] = Buffer.byteLength(postData)
 
