@@ -1,8 +1,9 @@
 var test = require('tape')
 var fs = require('fs')
+var path = require('path')
 var tiny = require('.')
 var http = require('http')
-var server 
+var server
 
 test('make a multipart post', t=> {
   t.plan(1)
@@ -36,9 +37,9 @@ test('can multipart/form-data post', t=> {
     },
     data: {
       one: 1,
-      anotherFile: fs.createReadStream(__dirname + '/readme.md')
+      anotherFile: fs.createReadStream(path.join(__dirname, 'readme.md'))
     }
-  }, 
+  },
   function _post(err, data) {
     if (err) {
       t.fail(err, err)
