@@ -23,7 +23,7 @@ test('start a fake server', t=> {
       console.log('END', Buffer.concat(body).toString())
     })
     res.end('ugh')
-  }).listen(3333, x=> {
+  }).listen(3000, x=> {
     t.ok(true, 'opened server')
   })
 })
@@ -31,7 +31,7 @@ test('start a fake server', t=> {
 test('can multipart/form-data post', t=> {
   t.plan(1)
   tiny.post({
-    url: 'http://localhost:3333',
+    url: 'http://localhost:3000',
     headers: {
       'Content-Type': 'multipart/form-data'
     },

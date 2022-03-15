@@ -47,8 +47,8 @@ module.exports = function _write(httpMethod, options, callback) {
   // wrangle defaults
   opts.method = httpMethod
   opts.headers = options.headers || {}
-  opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
-  opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
+  opts.headers['user-agent'] = opts.headers['user-agent'] || opts.headers['User-Agent'] || 'tiny-http'
+  opts.headers['content-type'] = opts.headers['content-type'] || opts.headers['Content-Type'] || defaultContentType
 
   // default to regular POST body (url enc)
   var postData = qs.stringify(options.data || {})
