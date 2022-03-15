@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 12.x, 14.x, 16.x ]
-        os: [ windows-latest, ubuntu-latest, macOS-latest ]
+        os: [ ubuntu-latest ] # [ windows-latest, ubuntu-latest, macOS-latest ]
 
     # Go
     steps:
