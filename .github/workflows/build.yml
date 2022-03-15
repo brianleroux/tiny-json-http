@@ -44,11 +44,11 @@ jobs:
         env:
           CI: true
 
-  # Assuming all that went fine (and it's master): deploy!
-  deploy:
+  # Publish to package registries
+  publish:
     # Setup
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
 
     # Go
