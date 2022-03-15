@@ -8,6 +8,10 @@ var server
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
+app.get('/json', (req, res)=> {
+  res.json({hello: 'there'})
+})
+
 app.get('/void', (req, res)=> {
   res.json('')
 })
@@ -37,14 +41,14 @@ test('can get a url', t=> {
 
 test('can get json', t=> {
   t.plan(2)
-  var url = 'https://api.github.com/'
+  var url = 'http://localhost:3001/json'
   tiny.get({url}, function __json(err, result) {
     if (err) {
       t.fail(err)
     }
     else {
       t.ok(result, 'got a result')
-      t.equal(typeof result.body, 'object', 'body is an object')
+      t.equal(result.body.hello, 'there', 'body is an object')
       console.log(err, result)
     }
   })

@@ -29,20 +29,6 @@ test('can get a url', async t=> {
   }
 })
 
-test('can get json', async t=> {
-  t.plan(2)
-  var url = 'https://api.github.com/'
-  try {
-    var result = await tiny.get({url})
-    t.ok(result, 'got a result')
-    t.equal(typeof result.body, 'object', 'body is an object')
-    console.log(result)
-  }
-  catch(e) {
-    t.fail(e)
-  }
-})
-
 test('get fails gracefully', t=> {
   t.plan(1)
   var url = 'http://nop333.ca'
