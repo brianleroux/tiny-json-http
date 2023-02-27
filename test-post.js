@@ -28,6 +28,12 @@ app.delete('/', (req, res)=> {
   res.json(Object.assign(req.body, {gotDel:true, ok:true}))
 })
 
+app.post('/goaway', (req, res) => {
+  res.setHeader('location', '/')
+  res.statusCode = 302
+  res.send()
+})
+
 app.post('/boom', (req, res)=> {
   res.setHeader('test-header', 'foo')
   res.statusCode = 400
@@ -149,6 +155,22 @@ test('can access response on errors', t=> {
     t.equal(err.raw.statusCode, 400)
     t.equal(err.raw.headers['test-header'], 'foo')
     t.deepEqual(err.body, {calls: 3})
+  })
+})
+
+test('can handle redirects', t=> {
+  t.plan(2)
+  var url = 'http://localhost:3000/goaway'
+  var data = {}
+  tiny.post({url, data}, function __posted(err, result) {
+    if (err) {
+      t.fail(err)
+      t.end()
+    } else {
+      t.ok(result, 'got a result')
+      t.ok(result.headers.location, 'got a location header')
+      console.log(result)
+    }
   })
 })
 

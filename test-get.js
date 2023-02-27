@@ -21,6 +21,12 @@ app.options('/opts', (req, res) => {
   res.json('')
 })
 
+app.get('/goaway', (req, res) => {
+  res.setHeader('location', '/')
+  res.statusCode = 302
+  res.send()
+})
+
 test('startup', t=> {
   t.plan(1)
   server = app.listen(3001, x=> {
@@ -114,6 +120,20 @@ test('can options a url', t=> {
     else {
       t.ok(result, 'got a result')
       t.ok(result.headers.allow, 'got headers')
+      console.log(result)
+    }
+  })
+})
+
+test('can handles redirect', t=> {
+  t.plan(2)
+  var url = 'http://localhost:3001/goaway'
+  tiny.get({url}, function __got(err, result) {
+    if (err) {
+      t.fail(err.statusCode, 'failed to handle redirect')
+    } else {
+      t.ok(result, 'got a result')
+      t.ok(result.headers.location, 'got a location header')
       console.log(result)
     }
   })
