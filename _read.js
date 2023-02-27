@@ -54,7 +54,7 @@ module.exports = function _read(httpMethod, options, callback) {
   // make a request
   var req = method(opts, function _res(res) {
     var raw = [] // keep our buffers here
-    var ok = res.statusCode >= 200 && res.statusCode < 300
+    var ok = res.statusCode >= 200 && res.statusCode < 303
 
     res.on('data', function _data(chunk) {
       raw.push(chunk)
