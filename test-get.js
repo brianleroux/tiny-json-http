@@ -16,6 +16,11 @@ app.get('/void', (req, res)=> {
   res.json('')
 })
 
+app.options('/opts', (req, res) => {
+  res.setHeader('allow', 'OPTIONS, GET')
+  res.json('')
+})
+
 test('startup', t=> {
   t.plan(1)
   server = app.listen(3001, x=> {
@@ -101,14 +106,14 @@ test('can head a url', t=> {
 
 test('can options a url', t=> {
   t.plan(2)
-  var url = 'https://www.mozilla.org/en-US/'
+  var url = 'http://localhost:3001/opts'
   tiny.options({url}, function __got(err, result) {
-    if (err) {alm
+    if (err) {
       t.fail(err.statusCode, 'failed to options')
     }
     else {
       t.ok(result, 'got a result')
-      t.ok(result.headers, 'got headers')
+      t.ok(result.headers.allow, 'got headers')
       console.log(result)
     }
   })
