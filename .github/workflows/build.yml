@@ -15,16 +15,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [ 12.x, 14.x, 16.x ]
+        node-version: [ 12.x, 14.x, 16.x, 18.x ]
         os: [ ubuntu-latest ] # [ windows-latest, ubuntu-latest, macOS-latest ]
 
     # Go
     steps:
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -58,12 +58,12 @@ jobs:
     # Go
     steps:
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: lts/*
           registry-url: https://registry.npmjs.org/
 
       - name: Install
