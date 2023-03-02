@@ -1,7 +1,7 @@
 var test = require('tape')
 var fs = require('fs')
 var path = require('path')
-var tiny = require('.')
+var tiny = require('./dist.js')
 var http = require('http')
 var server
 

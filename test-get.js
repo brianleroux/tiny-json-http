@@ -2,7 +2,7 @@ var test = require('tape')
 var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
-var tiny = require('./')
+var tiny = require('./dist.js')
 var server
 
 app.use(bodyParser.json())
