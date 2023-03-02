@@ -1,5 +1,5 @@
 var test = require('tape')
-var tiny = require('.')
+var tiny = require('./dist.js')
 
 test('env', t=> {
   t.plan(7)
