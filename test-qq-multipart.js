@@ -1,9 +1,11 @@
-var test = require('tape')
-var fs = require('fs')
-var path = require('path')
-var tiny = require('./dist.js')
-var http = require('http')
-var server
+let test = require('tape')
+let fs = require('fs')
+let path = require('path')
+let tiny = require('./dist.js')
+let http = require('http')
+let port = 3000
+let host = 'localhost'
+let server
 
 test('make a multipart post', t=> {
   t.plan(1)
@@ -14,30 +16,30 @@ test('start a fake server', t=> {
   t.plan(1)
   // somebody thought this was intuitive
   server = http.createServer((req, res)=> {
-    var body = []
-    req.on('data', function _data(data) {
-      //console.log(data.toString())
-      body.push(data)
-    })
+    let body = []
+    req.on('data', chunk => body.push(chunk))
     req.on('end', function _end() {
-      console.log('END', Buffer.concat(body).toString())
+      body = Buffer.concat(body).toString()
+      res.end(body)
     })
-    res.end('ugh')
-  }).listen(3000, x=> {
-    t.ok(true, 'opened server')
+  })
+  server.listen({port, host}, err=> {
+    if (err) t.fail(err)
+    else t.pass(`Started server`)
   })
 })
 
 test('can multipart/form-data post', t=> {
   t.plan(1)
+  let file = fs.readFileSync(path.join(__dirname, 'readme.md'))
   tiny.post({
-    url: 'http://localhost:3000',
+    url: `http://${host}:${port}`,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'content-type': 'multipart/form-data'
     },
     data: {
       one: 1,
-      anotherFile: fs.createReadStream(path.join(__dirname, 'readme.md'))
+      file
     }
   },
   function _post(err, data) {
@@ -46,7 +48,7 @@ test('can multipart/form-data post', t=> {
       console.log(err)
     }
     else {
-      t.ok(true, 'posted')
+      t.ok(data.body.includes(file.toString()), 'posted')
       console.log(data)
     }
   })
