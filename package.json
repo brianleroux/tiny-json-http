@@ -1,6 +1,6 @@
 {
   "name": "tiny-json-http",
-  "version": "7.4.2",
+  "version": "7.5.0",
   "main": "dist.js",
   "scripts": {
     "test": "npm run build && tape test-* | tap-spec",
