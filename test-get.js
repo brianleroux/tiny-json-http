@@ -105,7 +105,7 @@ test('can head a url', t=> {
     else {
       t.ok(result, 'got a result')
       t.ok(result.headers, 'got headers')
-      console.log(result)
+      console.log(JSON.stringify(result, null, 2).substring(0,75), '...')
     }
   })
 })
