@@ -48,8 +48,8 @@ module.exports = function _read(httpMethod, options, callback) {
   // wrangle defaults
   opts.method = httpMethod
   opts.headers = options.headers || {}
-  opts.headers['User-Agent'] = opts.headers['User-Agent'] || 'tiny-http'
-  opts.headers['Content-Type'] = opts.headers['Content-Type'] || defaultContentType
+  opts.headers['user-agent'] = opts.headers['user-agent'] || opts.headers['User-Agent'] || 'tiny-http'
+  opts.headers['content-type'] = opts.headers['content-type'] || opts.headers['Content-Type'] || defaultContentType
 
   // make a request
   var req = method(opts, function _res(res) {
@@ -63,9 +63,9 @@ module.exports = function _read(httpMethod, options, callback) {
     res.on('end', function _end() {
       var err = null
       var result = null
-      var isJSON = res.headers['content-type'] && 
+      var isJSON = res.headers['content-type'] &&
                   (res.headers['content-type'].startsWith('application/json') ||
-                   res.headers['content-type'].match(/^application\/.*json/)) 
+                   res.headers['content-type'].match(/^application\/.*json/))
       try {
         result = Buffer.concat(raw)
 
